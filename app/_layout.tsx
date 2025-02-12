@@ -1,9 +1,12 @@
 import { Stack } from 'expo-router'
 import React from 'react'
+import TokenContextProvider from '../src/context/userContext'
 
 function _layout() {
   return (
-    <Stack></Stack>
+    <TokenContextProvider>
+      <Stack></Stack>
+    </TokenContextProvider>
   )
 }
 

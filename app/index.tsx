@@ -1,31 +1,38 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import axios from "axios";
-import BASE_URL from "../src/constants/baseUrl";
+import { Redirect } from "expo-router";
+import { Button, Text } from "react-native";
+import { useTokenContext } from "../src/context/userContext";
+import DATABASE_API from "../src/services/database.API";
 
-export default function Index() {
-  let getCars = axios({
-    method: "get",
-    url: BASE_URL,
-  }).then((resposta) => {
-    console.log(resposta.data);
-  });
+
+export default function Login() {
+  const { token, setToken } = useTokenContext();
+
+  if (token) return <Redirect href="/userspace" />;
 
   return (
-    <View style={styles.container}>
-      <View>
-        <Text>CARROS</Text>
-      </View>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <Text>
+        verificar se tem o usuario criado no PocketBase
+      </Text>
+
+      <Button
+        title="login"
+        onPress={async () => {
+          try {
+            const result = await DATABASE_API.post(
+              "/api/collections/users/auth-with-password",
+              {
+                identity: "teste2@gmail.com",
+                password: "peterson1234567890",
+              }
+            );
+
+            setToken(result.data.token);
+          } catch (error) {
+            console.log("deu ruim o login no INDEX")
+          }
+        }}
+      />
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

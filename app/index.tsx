@@ -4,7 +4,7 @@ import { useTokenContext } from "../src/context/userContext";
 import DATABASE_API from "../src/services/database.API";
 
 
-export default function Login() {
+export default function index() {
   const { token, setToken } = useTokenContext();
 
   if (token) return <Redirect href="/userspace" />;
@@ -29,7 +29,7 @@ export default function Login() {
 
             setToken(result.data.token);
           } catch (error) {
-            console.log("deu ruim o login no INDEX")
+            console.log(`ERRO NO INDEX ERRO=> ${error}`)
           }
         }}
       />

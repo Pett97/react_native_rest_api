@@ -15,6 +15,14 @@ yarn install
 cd pocketbase
 ./pocketbase serve --http=<SEU_IP_LOCAL>:8090
 
+## configurar URL do projeto 
+dentro do projeto temos que atualizar a constante BASE_URL para o seu IP LOCAL 
+src/constants/baseUri.ts
+
+const BASE_URL = "http://192.168.0.104:8090/"; 
+
+subistuir para const BASE_URL = "http://<seu_ip_local>:8090/";
+
 Caso o firewall esteja ativo no seu computador, você precisará liberar a porta 8090 para permitir a comunicação na rede local. Para isso, utilize o comando abaixo:
 No Ubuntu
 sudo ufw allow 8090

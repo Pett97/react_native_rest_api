@@ -1,0 +1,24 @@
+# Como Rodar o Projeto
+
+## Passo 1: Clonar o Repositório
+
+Primeiro, clone o repositório do projeto utilizando o seguinte comando:
+
+```bash
+https://github.com/Pett97/react_native_rest_api.git
+```
+##instalar dependencias do projeto 
+cd <PASTA_DO_PROJETO>
+yarn install
+
+## configurar o pocketbase 
+cd pocketbase
+./pocketbase serve --http=<SEU_IP_LOCAL>:8090
+
+Caso o firewall esteja ativo no seu computador, você precisará liberar a porta 8090 para permitir a comunicação na rede local. Para isso, utilize o comando abaixo:
+No Ubuntu
+sudo ufw allow 8090
+### acessar pocketbase
+http://<SEU_IP_LOCAL>:8090
+## rodar o projeto 
+yarn start

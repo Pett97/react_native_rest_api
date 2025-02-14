@@ -13,20 +13,17 @@ function TelaFormulario() {
 
   const postCarro = async () => {
     try {
-      // Verifica se os dados são válidos
       if (!brand || !name || !hp) {
-        alert("Por favor, preencha todos os campos.");
+        alert("tem que todos todos os campos ");
         return;
       }
 
-      // Converte hp para número, se possível
       const hpNumber = parseInt(hp);
       if (isNaN(hpNumber)) {
-        alert("Por favor, insira um valor válido para HP.");
+        alert("erro no HP");
         return;
       }
 
-      // Envia a requisição
       const resultado = await DATABASE_API.post(
         "/api/collections/cars/records",
         {

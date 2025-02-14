@@ -26,7 +26,9 @@ subistuir para const BASE_URL = "http://<seu_ip_local>:8090/";
 Caso o firewall esteja ativo no seu computador, você precisará liberar a porta 8090 para permitir a comunicação na rede local. Para isso, utilize o comando abaixo:
 No Ubuntu
 sudo ufw allow 8090
+
 ### acessar pocketbase
-http://<SEU_IP_LOCAL>:8090
+http://<seu_ip_local>:8090/_/
+
 ## rodar o projeto 
 yarn start

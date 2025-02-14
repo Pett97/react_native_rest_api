@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, Button } from "react-native";
+import { View, FlatList, Button, Text } from "react-native";
 import DATABASE_API from "../src/services/database.API";
 import { useTokenContext } from "../src/context/userContext";
 import Car from "../src/components/Car";
@@ -15,7 +15,21 @@ interface Carro {
 function Userspace() {
   const { token } = useTokenContext();
   const [carros, setCarros] = useState<Carro[]>([]);
-  const router  = useRouter();
+  const router = useRouter();
+
+  const deletarCarro = async (id: string) => {
+    try {
+      await DATABASE_API.delete(`/api/collections/cars/records/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setCarros((prevCarros) => prevCarros.filter((carro) => carro.id !== id));
+    } catch (error) {
+      console.log(`Erro ao deletar carro: ${error}`);
+    }
+  };
 
   useEffect(() => {
     const fetchCarros = async () => {
@@ -24,7 +38,7 @@ function Userspace() {
           "/api/collections/cars/records",
           {
             headers: {
-              Authorization: token, 
+              Authorization: token,
             },
           }
         );
@@ -43,18 +57,39 @@ function Userspace() {
   return (
     <View>
       <View>
-        <Button title="Criar Novo Carro" onPress={()=>router.push("/telaFormulario")}></Button>
+        <Button
+          title="Criar Novo Carro"
+          onPress={() => router.push("/telaFormulario")}
+        ></Button>
       </View>
       <FlatList
         data={carros}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Car
-            id={item.id}
-            brand={item.brand}
-            name={item.name}
-            hp={item.hp}
-          />
+          <View>
+            <View>
+              <Car
+                id={item.id}
+                brand={item.brand}
+                name={item.name}
+                hp={item.hp}
+              />
+            </View>
+            <View>
+              <View>
+                <Button
+                  title="Deletar"
+                  onPress={() => deletarCarro(item.id)}
+                ></Button>
+              </View>
+              <View>
+                <Button
+                  title="Editar"
+                  onPress={() => router.push(`/editarCarro?id=${item.id}`)}
+                />
+              </View>
+            </View>
+          </View>
         )}
       />
     </View>

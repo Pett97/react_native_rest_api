@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, Button, Text } from "react-native";
-import DATABASE_API from "../src/services/database.API";
-import { useTokenContext } from "../src/context/userContext";
-import Car from "../src/components/Car";
+import { View, FlatList, Button, TextInput } from "react-native";
+import DATABASE_API from "../../src/services/database.API";
+import { useTokenContext } from "../../src/context/userContext";
+import Car from "../../src/components/Car";
 import { useRouter } from "expo-router";
 
 interface Carro {
@@ -15,6 +15,8 @@ interface Carro {
 function Userspace() {
   const { token } = useTokenContext();
   const [carros, setCarros] = useState<Carro[]>([]);
+  const [carrosFiltrados, setCarrosFiltrados] = useState<Carro[]>([]);
+  const [nomeMarca, setNomeMarca] = useState("");
   const router = useRouter();
 
   const deletarCarro = async (id: string) => {
@@ -43,7 +45,7 @@ function Userspace() {
           }
         );
         setCarros(resultado.data.items);
-        console.log(resultado.data.items);
+        setCarrosFiltrados(resultado.data.items); // Inicializa com todos os carros
       } catch (error) {
         console.log(`Erro ao buscar carros: ${error}`);
       }
@@ -54,43 +56,46 @@ function Userspace() {
     }
   }, [token]);
 
+  useEffect(() => {
+    const resultadosFiltrados = carros.filter((carro) =>
+      carro.brand.toLowerCase().includes(nomeMarca.toLowerCase())
+    );
+    setCarrosFiltrados(resultadosFiltrados);
+  }, [nomeMarca, carros]);
+
   return (
     <View>
+      <View>
+        <TextInput
+          placeholder="Buscar Por Marca"
+          value={nomeMarca}
+          onChangeText={(text) => setNomeMarca(text)} // Corrigido aqui
+        />
+      </View>
       <View>
         <Button
           title="Criar Novo Carro"
           onPress={() => router.push("/telaFormulario")}
-        ></Button>
+        />
       </View>
       <FlatList
-        data={carros}
+        data={carrosFiltrados} // Renderiza a lista filtrada
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View>
             <View>
-              <Car
-                id={item.id}
-                brand={item.brand}
-                name={item.name}
-                hp={item.hp}
-              />
+              <Car brand={item.brand} name={item.name} hp={item.hp} />
             </View>
             <View>
-              <View>
-                <Button
-                  title="Deletar"
-                  onPress={() => deletarCarro(item.id)}
-                ></Button>
-              </View>
-              <View>
-                <Button
-                  title="Editar"
-                  onPress={() => router.push(`/editarCarro?id=${item.id}`)}
-                />
-              </View>
+              <Button title="Deletar" onPress={() => deletarCarro(item.id)} />
+              <Button
+                title="Editar"
+                onPress={() => router.push(`/editarCarro?id=${item.id}`)}
+              />
             </View>
           </View>
         )}
+        contentContainerStyle={{ paddingBottom: 70 }}
       />
     </View>
   );

@@ -38,9 +38,9 @@ function TelaFormulario() {
           },
         }
       );
-      router.push("/userspace");
+      router.push("/userspace/userspace");
     } catch (error) {
-      console.log(`ERROR: ${error}`);
+      //console.log(`ERROR: ${error}`);
     }
   };
 

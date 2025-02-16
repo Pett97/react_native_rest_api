@@ -7,7 +7,7 @@ import DATABASE_API from "../src/services/database.API";
 export default function index() {
   const { token, setToken } = useTokenContext();
 
-  if (token) return <Redirect href="/userspace" />;
+  if (token) return <Redirect href="/userspace/userspace" />;
 
   return (
     <>
@@ -29,7 +29,7 @@ export default function index() {
 
             setToken(result.data.token);
           } catch (error) {
-            console.log(`ERRO NO INDEX ERRO=> ${error}`)
+            //console.log(`ERRO NO INDEX ERRO=> ${error}`)
           }
         }}
       />

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, TextInput, Button } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { View, Text, TextInput, Button } from "react-native";
+import { useLocalSearchParams,} from 'expo-router';
 import DATABASE_API from "../src/services/database.API";
-import Car from "../src/components/Car";
 import { useTokenContext } from "../src/context/userContext";
+import { useRouter } from "expo-router";
 
 interface Carro {
   id: string;
@@ -16,6 +16,7 @@ function EditarCarro() {
   const { id } = useLocalSearchParams();
   const { token } = useTokenContext();
   const [carro, setCarro] = useState<Carro | null>(null);
+  const router = useRouter();
 
   // Dados novos
   const [novoNome, setNovoNome] = useState("");
@@ -38,9 +39,9 @@ function EditarCarro() {
           },
         }
       );
-      console.log("Carro atualizado com sucesso:", resultado.data);
+      router.push("/userspace/userspace");
     } catch (error) {
-      console.log(`Erro ao atualizar carro: ${error}`);
+      //console.log(`Erro ao atualizar carro: ${error}`);
     }
   };
 
@@ -61,7 +62,7 @@ function EditarCarro() {
         setNovaMarca(resultado.data.brand);
         setNovoHp(String(resultado.data.hp));
       } catch (error) {
-        console.log(`Erro ao buscar carro: ${error}`);
+        //console.log(`Erro ao buscar carro: ${error}`);
       }
     };
 
@@ -95,7 +96,7 @@ function EditarCarro() {
         />
       </View>
       <View>
-        <Button title="Voltar" onPress={() => {}} />
+        <Button title="Voltar" onPress={() => {router.push("/userspace/userspace")}} />
         <Button title="Atualizar" onPress={atualizarCarro} />
       </View>
     </View>

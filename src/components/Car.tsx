@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
+import styleCar from "./carStyle";
 
 interface CarProps {
   id?: string;
@@ -10,11 +11,10 @@ interface CarProps {
 
 function Car({ id, brand, name, hp }: CarProps) {
   return (
-    <View>
-      <Text>ID: {id}</Text>
-      <Text>BRAND: {brand}</Text>
-      <Text>NAME: {name}</Text>
-      <Text>HP: {hp}</Text>
+    <View style={styleCar.container}>
+      <Text style={styleCar.text}>Brand: {brand}</Text>
+      <Text style={styleCar.text}>Name: {name}</Text>
+      <Text style={styleCar.text}>HP: {hp}</Text>
     </View>
   );
 }
